@@ -19,7 +19,8 @@ public class GenerateInvoiceUseCase
             .Where(invoiceItem => !restaurant.AvailableItems.Contains(invoiceItem));
         if (itemsUnavailable.Any())
         {
-            return new ItemsUnavailable(itemsUnavailable);
+            List<string> itemsUnavailableToString = itemsUnavailable.ToList().ConvertAll(x => x.ToString());
+            return new ItemsUnavailable(string.Join(",", itemsUnavailableToString));
         }
 
         Invoice invoice = new(invoiceRequest.RestaurantId, invoiceRequest.Items);
