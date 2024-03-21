@@ -1,2 +1,10 @@
-﻿namespace OperationResultPattern.OperationResult;
-public record OutsideOfHours((TimeOnly, TimeOnly) OpeningHours) : GenerateInvoiceFailure("The restaurant is already closed.");
+﻿using FluentResults;
+
+namespace OperationResultPattern.OperationResult;
+public class OutsideOfHours : Error
+{
+    public OutsideOfHours((TimeOnly, TimeOnly) openingHours) : base("The restaurant is already closed.")
+    {
+        Metadata.Add(nameof(openingHours), openingHours);
+    }
+}

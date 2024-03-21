@@ -1,4 +1,5 @@
-﻿using OperationResultPattern.DTOs;
+﻿using FluentResults;
+using OperationResultPattern.DTOs;
 using OperationResultPattern.Entities;
 using OperationResultPattern.Enums;
 using OperationResultPattern.OperationResult;
@@ -6,7 +7,7 @@ using OperationResultPattern.OperationResult;
 namespace OperationResultPattern.UseCase;
 public class GenerateInvoiceUseCase
 {
-    public GenerateInvoiceResult Execute(InvoiceRequest invoiceRequest)
+    public Result Execute(InvoiceRequest invoiceRequest)
     {
         Restaurant restaurant = GetRestaurantById(invoiceRequest.RestaurantId);
 
@@ -24,7 +25,8 @@ public class GenerateInvoiceUseCase
         }
 
         Invoice invoice = new(invoiceRequest.RestaurantId, invoiceRequest.Items);
-        return new GenerateInvoiceSuccess(invoice.Id);
+        return Result.Ok()
+                     .WithSuccess(new GenerateInvoiceSuccess(invoice.Id));
     }
 
     private Restaurant GetRestaurantById(int restaurantId)
